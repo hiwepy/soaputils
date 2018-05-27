@@ -16,22 +16,24 @@
 package com.github.vindell.soap;
 
 
-import java.net.URL;  
-import java.util.HashMap;  
-import java.util.Map;  
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.xml.namespace.QName;  
-import javax.xml.soap.MessageFactory;  
-import javax.xml.soap.SOAPBody;  
-import javax.xml.soap.SOAPBodyElement;  
-import javax.xml.soap.SOAPConstants;  
-import javax.xml.soap.SOAPEnvelope;  
+import javax.xml.namespace.QName;
+import javax.xml.soap.MessageFactory;
+import javax.xml.soap.SOAPBody;
+import javax.xml.soap.SOAPBodyElement;
+import javax.xml.soap.SOAPConstants;
+import javax.xml.soap.SOAPEnvelope;
 //import javax.xml.soap.SOAPHeader;  
-import javax.xml.soap.SOAPMessage;  
-import javax.xml.ws.Dispatch;  
-import javax.xml.ws.Service;  
-import org.w3c.dom.Document;  
-import com.sun.xml.internal.ws.client.BindingProviderProperties;  
+import javax.xml.soap.SOAPMessage;
+import javax.xml.ws.Dispatch;
+import javax.xml.ws.Service;
+
+import org.w3c.dom.Document;
+
+import com.sun.xml.internal.ws.client.BindingProviderProperties;
 import com.sun.xml.internal.ws.developer.JAXWSProperties;  
 
 public class WebServiceClient {  

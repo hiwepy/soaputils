@@ -1,4 +1,4 @@
-package org.apache.cxf.spring.boot.jaxws.soap.type;
+package com.github.vindell.soap.type;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -6,9 +6,9 @@ import java.util.List;
 
 import javax.xml.soap.SOAPElement;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -72,7 +72,7 @@ public class ListSoapType extends BaseSoapType {
 			for (int i = 0; i < size; i++) {
 				SOAPElement node = (SOAPElement) nodeList.item(i);
 				String text = node.getTextContent();
-				if (!StringUtils.hasText(text)) {
+				if (StringUtils.isBlank(text)) {
 					SoapType convert = SoapTypes.getTypeByBean(null);
 					Class c = Object.class;
 					try {

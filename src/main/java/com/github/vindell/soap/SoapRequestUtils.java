@@ -16,6 +16,7 @@
 package com.github.vindell.soap;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -35,12 +36,17 @@ import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.NodeList;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.vindell.soap.signature.SoapSignature;
 import com.github.vindell.soap.type.SoapType;
 import com.github.vindell.soap.type.SoapTypes;
@@ -94,7 +100,7 @@ public class SoapRequestUtils {
 	}
 
 	private static void buildSoapElementValue(SOAPElement soapElement, JSONObject jobject, Map<String, Object> variables)
-			throws Exception {
+			throws SOAPException {
 		if (jobject == null)
 			return;
 
@@ -119,11 +125,11 @@ public class SoapRequestUtils {
 				soapElement.setTextContent(binding);
 				break;
 			case 2:
-				if (StringUtils.hasText(binding))
+				if (StringUtils.isNotBlank(binding))
 					obj = PropertyUtils.getProperty(variables, binding);
 				break;
 			case 3:
-				obj = SoapUtils.groovyEngine.evaluate(new StaticScriptSource(binding), variables);
+				//obj = SoapUtils.groovyEngine.evaluate(new StaticScriptSource(binding), variables);
 			}
 
 			if (obj != null) {
@@ -137,13 +143,13 @@ public class SoapRequestUtils {
 					converter = SoapTypes.getTypeByBean(klass);
 				}
 
-				if (StringUtils.hasText(listObj)) {
+				if (StringUtils.isNotBlank(listObj)) {
 					if ((obj instanceof List)) {
 						List list = (List) obj;
 						String elementName = soapElement.getLocalName();
 						SOAPElement parentElement = soapElement;
 
-						if (StringUtils.hasText(elementStr)) {
+						if (StringUtils.isNotBlank(elementStr)) {
 							parentElement = soapElement.getParentElement();
 						}
 						if (list.size() == 0) {
@@ -169,7 +175,7 @@ public class SoapRequestUtils {
 							Object item = list.get(i);
 							SOAPElement listElement = (SOAPElement) fieldNodeList.item(i);
 							SOAPElement itemElement = listElement;
-							if (StringUtils.hasText(elementStr))
+							if (StringUtils.isNotBlank(elementStr))
 								itemElement = (SOAPElement) listElement.getElementsByTagName(elementName).item(0);
 							if (item == null) {
 								itemElement.detachNode();
@@ -190,19 +196,19 @@ public class SoapRequestUtils {
 
 			String textContext = soapElement.getTextContent();
 			boolean hasChild = soapElement.hasChildNodes();
-			if ((!StringUtils.hasText(textContext)) && (!hasChild)) {
+			if ((StringUtils.isBlank(textContext)) && (!hasChild)) {
 				soapElement.detachNode();
 			}
 		} catch (Exception e) {
 			logger.error("动态设值出错.", e);
-			throw e;
+			throw new SOAPException(e);
 		}
 	}
 
 	private static SOAPElement createRequest(JSONArray jarray, JSONArray inputParams, String namespace,
-			String method, Map<String, Object> variables) throws Exception {
+			String method, Map<String, Object> variables) throws SOAPException {
 		String prefix = "api";
-		if (!StringUtils.hasText(namespace)) {
+		if (StringUtils.isBlank(namespace)) {
 			prefix = "";
 		}
 		SOAPFactory factory = SOAPFactory.newInstance();
@@ -210,7 +216,7 @@ public class SoapRequestUtils {
 		Map<JSONObject, SOAPElement> map;
 		Iterator<?> it;
 		Iterator<?> i$;
-		if (!ObjectUtils.isEmpty(inputParams)) {
+		if (CollectionUtils.isNotEmpty(inputParams)) {
 			
 			map = new HashMap<JSONObject, SOAPElement>();
 			for (i$ = inputParams.iterator(); i$.hasNext();) {
@@ -271,7 +277,7 @@ public class SoapRequestUtils {
 	}
 
 	private static void setBindingValue(JSONArray jarray, SOAPElement soapElment, int level, String rootName,
-			Map<String, Object> variables, Map<JSONObject, SOAPElement> map) throws Exception {
+			Map<String, Object> variables, Map<JSONObject, SOAPElement> map) throws SOAPException {
 		String nodeName = soapElment.getNodeName();
 		JSONObject bindingJobject = getBindingJObject(jarray, level, rootName, nodeName);
 		Iterator<?> it = soapElment.getChildElements();
@@ -301,7 +307,7 @@ public class SoapRequestUtils {
 					if (jobject.containsKey("fullpath")) {
 						fullpath = jobject.getString("fullpath");
 					}
-					if (!StringUtils.hasText(fullpath)) {
+					if (StringUtils.isBlank(fullpath)) {
 						if (fullpath.equals(rootName))
 							reJobject = jobject;
 					} else {

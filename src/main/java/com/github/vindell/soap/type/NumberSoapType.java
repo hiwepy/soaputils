@@ -1,4 +1,4 @@
-package org.apache.cxf.spring.boot.jaxws.soap.type;
+package com.github.vindell.soap.type;
 
 import java.math.BigDecimal;
 import javax.xml.soap.SOAPElement;

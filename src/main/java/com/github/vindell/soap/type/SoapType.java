@@ -1,4 +1,4 @@
-package org.apache.cxf.spring.boot.jaxws.soap.type;
+package com.github.vindell.soap.type;
 
 import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPException;

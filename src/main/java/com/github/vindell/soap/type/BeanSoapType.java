@@ -1,14 +1,14 @@
-package org.apache.cxf.spring.boot.jaxws.soap.type;
+package com.github.vindell.soap.type;
 
 import java.lang.reflect.Field;
 import java.util.Iterator;
 
 import javax.xml.soap.SOAPElement;
 
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 import org.w3c.dom.NodeList;
 
 public class BeanSoapType extends BaseSoapType {
@@ -37,7 +37,7 @@ public class BeanSoapType extends BaseSoapType {
 				try {
 					Object objValue = field.get(obj);
 					SOAPElement targetElement = (SOAPElement) fieldNodeList.item(0);
-					if (ObjectUtils.isEmpty(objValue)) {
+					if (objValue == null) {
 						boolean hasChild = targetElement.hasChildNodes();
 						if (!hasChild) {
 							targetElement.detachNode();
@@ -55,7 +55,7 @@ public class BeanSoapType extends BaseSoapType {
 			SOAPElement child = (SOAPElement) it.next();
 			if (!child.hasChildNodes()) {
 				String content = child.getTextContent();
-				if (!StringUtils.hasText(content)) {
+				if (StringUtils.isBlank(content)) {
 					child.detachNode();
 				}
 			}

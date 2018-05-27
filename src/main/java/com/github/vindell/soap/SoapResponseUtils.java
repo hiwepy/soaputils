@@ -38,8 +38,8 @@ import com.github.vindell.soap.type.SoapTypes;
 public class SoapResponseUtils {
 
 	public static void build(Map<String, Object> variables, JSONArray jarray, SOAPMessage message) throws Exception {
-		
-		SoapUtils.checkFault(message);
+
+		SoapFaultUtils.checkFault(message);
 
 		NodeList nodeList = message.getSOAPBody().getChildNodes();
 
@@ -60,7 +60,7 @@ public class SoapResponseUtils {
 	}
 
 	private static SOAPElement getElementByPath(SOAPElement[] elements, String fullpath) {
-		if (!StringUtils.hasText(fullpath)) {
+		if (StringUtils.isBlank(fullpath)) {
 			return elements[0];
 		}
 		String[] names = fullpath.split("\\.");
@@ -109,15 +109,15 @@ public class SoapResponseUtils {
 		SOAPElement elements = getElementByPath(roots, fullpath);
 		binding = StringEscapeUtils.unescapeJson(binding);
 
-		if (!StringUtils.hasText(binding))
+		if (StringUtils.isBlank(binding))
 			return;
 
 		Class<?> type = Class.forName(soapType);
 		ConvertUtils.lookup(SOAPElement.class, type).convert(type, elements);
-		
+
 		Object obj = null;
 		SoapType converter;
-		if (StringUtils.hasText(soapType)) {
+		if (StringUtils.isNotBlank(soapType)) {
 			try {
 				Class<?> kclass;
 				if (soapType.matches("List\\{\\w*\\}")) {
@@ -132,7 +132,7 @@ public class SoapResponseUtils {
 				obj = converter.convertToBean(new SOAPElement[] { elements });
 			}
 
-		} else if ((StringUtils.hasText(beanType)) && (bindingType.intValue() == 2)) {
+		} else if ((StringUtils.isNotBlank(beanType)) && (bindingType.intValue() == 2)) {
 			Class klass = Class.forName(beanType);
 			converter = SoapTypes.getTypeByBean(klass);
 			obj = converter.convertToBean(klass, new SOAPElement[] { elements });
@@ -153,10 +153,11 @@ public class SoapResponseUtils {
 			}
 			break;
 		case 3:
-			/*variables.put("returnObj", obj);
-			SoapUtils.groovyEngine.evaluate(new StaticScriptSource(binding), variables);
-			variables.remove("returnObj");*/
+			/*
+			 * variables.put("returnObj", obj); SoapUtils.groovyEngine.evaluate(new
+			 * StaticScriptSource(binding), variables); variables.remove("returnObj");
+			 */
 		}
 	}
-	
+
 }
