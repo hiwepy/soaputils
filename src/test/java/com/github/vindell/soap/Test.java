@@ -23,7 +23,6 @@ public class Test {
      * @param args 
      */  
     public static void main(String[] args) {  
-        // TODO Auto-generated method stub  
         // 该WebService文档==>http://ws.webxml.com.cn/webservices/DomesticAirline.asmx  
         WebServiceClient ws = new WebServiceClient("http://WebXml.com.cn/",  
                 "http://ws.webxml.com.cn/webservices/DomesticAirline.asmx",  
@@ -32,7 +31,7 @@ public class Test {
         HashMap<String, String> inMsg = new HashMap<String, String>();  
         inMsg.put("startCity", "宁波");  
         inMsg.put("lastCity", "青岛");  
-        inMsg.put("theDate", "2017-05-11");  
+        inMsg.put("theDate", "2018-11-29");  
   
         try {  
             String ret = ws.sendMessage(inMsg);  
