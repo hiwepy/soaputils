@@ -1,4 +1,4 @@
-package com.github.vindell.soap.handler;
+package com.github.hiwepy.soap.handler;
 
 import java.net.HttpURLConnection;
 
@@ -7,7 +7,7 @@ import javax.xml.soap.SOAPMessage;
 
 /**
  * Soap请求响应处理：返回java.lang.String对象
- * @author 		： <a href="https://github.com/vindell">vindell</a>
+ * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
  */
 public class PlainTextResponseHandler implements SoapResponseHandler<String> {
 

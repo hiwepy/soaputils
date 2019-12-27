@@ -14,7 +14,7 @@
  * under the Licence. 
  */
 
-package com.github.vindell.soap;
+package com.github.hiwepy.soap;
 
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;

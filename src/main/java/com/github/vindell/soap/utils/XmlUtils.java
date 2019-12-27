@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, vindell (https://github.com/vindell).
+ * Copyright (c) 2018, hiwepy (https://github.com/hiwepy).
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.github.vindell.soap.utils;
+package com.github.hiwepy.soap.utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -61,8 +61,8 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
-import com.github.vindell.soap.Constants;
-import com.github.vindell.soap.SoapVersion;
+import com.github.hiwepy.soap.Constants;
+import com.github.hiwepy.soap.SoapVersion;
 
 import net.sf.saxon.expr.Token;
 import net.sf.saxon.expr.Tokenizer;

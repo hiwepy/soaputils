@@ -14,7 +14,7 @@
  * under the Licence. 
  */
 
-package com.github.vindell.soap;
+package com.github.hiwepy.soap;
 
 /**
  * Namespace Constants

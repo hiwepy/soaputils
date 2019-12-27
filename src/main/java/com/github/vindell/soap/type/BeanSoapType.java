@@ -1,4 +1,4 @@
-package com.github.vindell.soap.type;
+package com.github.hiwepy.soap.type;
 
 import java.lang.reflect.Field;
 import java.util.Iterator;

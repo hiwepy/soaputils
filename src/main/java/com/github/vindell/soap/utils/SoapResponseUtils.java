@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, vindell (https://github.com/vindell).
+ * Copyright (c) 2018, hiwepy (https://github.com/hiwepy).
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.github.vindell.soap.utils;
+package com.github.hiwepy.soap.utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +24,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.github.vindell.soap.SoapUtils;
-import com.github.vindell.soap.SoapVersion;
+import com.github.hiwepy.soap.SoapUtils;
+import com.github.hiwepy.soap.SoapVersion;
 
 public class SoapResponseUtils {
 	

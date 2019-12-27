@@ -1,4 +1,4 @@
-package com.github.vindell.soap.handler;
+package com.github.hiwepy.soap.handler;
 
 import java.net.HttpURLConnection;
 
@@ -9,7 +9,7 @@ import com.alibaba.fastjson.JSONObject;
 
 /**
  * Soap请求响应处理：返回JSONObject对象
- * @author 		： <a href="https://github.com/vindell">vindell</a>
+ * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
  */
 public class JSONResponseHandler implements SoapResponseHandler<JSONObject> {
 

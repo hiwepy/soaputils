@@ -1,16 +1,16 @@
- package com.github.vindell.soap.handler;
+ package com.github.hiwepy.soap.handler;
 
 import java.net.HttpURLConnection;
 
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 
-import com.github.vindell.soap.SoapFaultUtils;
+import com.github.hiwepy.soap.SoapFaultUtils;
 
 
 /**
  * Soap请求响应处理：返回 javax.xml.soap.SOAPMessage 对象
- * @author 		： <a href="https://github.com/vindell">vindell</a>
+ * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
  */
 public class DefaultResponseHandler implements SoapResponseHandler<SOAPMessage> {
 

@@ -1,4 +1,4 @@
-package com.github.vindell.soap;
+package com.github.hiwepy.soap;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -15,10 +15,10 @@ import javax.xml.soap.SOAPMessage;
 
 import org.w3c.dom.Node;
 
-import com.github.vindell.soap.handler.DefaultResponseHandler;
-import com.github.vindell.soap.handler.SoapResponseHandler;
-import com.github.vindell.soap.signature.DefaultSoapSignature;
-import com.github.vindell.soap.signature.SoapSignature;
+import com.github.hiwepy.soap.handler.DefaultResponseHandler;
+import com.github.hiwepy.soap.handler.SoapResponseHandler;
+import com.github.hiwepy.soap.signature.DefaultSoapSignature;
+import com.github.hiwepy.soap.signature.SoapSignature;
 
 public class SoapUtils2 {
 	
