@@ -83,7 +83,7 @@ public class SoapResponseUtils {
 		return root;
 	}
 
-	private static SOAPElement getElement(Iterator<SOAPElement> it, String name) {
+	private static SOAPElement getElement(Iterator<?> it, String name) {
 		while (it.hasNext()) {
 			SOAPElement element = (SOAPElement) it.next();
 			String tagName = element.getTagName();

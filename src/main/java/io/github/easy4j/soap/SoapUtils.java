@@ -30,6 +30,10 @@ import javax.wsdl.Part;
 import javax.xml.namespace.QName;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+import com.eviware.soapui.SoapUI;
+import io.github.easy4j.soap.utils.XmlUtils;
+
 /**
  * SOAP-related utility-methods..
  *
@@ -38,7 +42,7 @@ import java.util.List;
 
 public class SoapUtils {
     public static boolean isSoapFault(String responseContent, SoapVersion soapVersion) throws XmlException {
-        if (StringUtils.isNullOrEmpty(responseContent)) {
+        if (StringUtils.isEmpty(responseContent)) {
             return false;
         }
 
@@ -81,7 +85,7 @@ public class SoapUtils {
 
         SoapVersion soapVersion = null;
 
-        if (StringUtils.isNullOrEmpty(contentType)) {
+        if (StringUtils.isEmpty(contentType)) {
             return null;
         }
 
@@ -97,25 +101,6 @@ public class SoapUtils {
         }
 
         return soapVersion;
-    }
-
-    public static String getSoapAction(SoapVersion soapVersion, StringToStringsMap headers) {
-        String soapAction = null;
-        String contentType = headers.get("Content-Type", "");
-
-        if (soapVersion == SoapVersion.Soap11) {
-            soapAction = headers.get("SOAPAction", "");
-        } else if (soapVersion == SoapVersion.Soap12) {
-            int ix = contentType.indexOf("action=");
-            if (ix > 0) {
-                int endIx = contentType.indexOf(';', ix);
-                soapAction = endIx == -1 ? contentType.substring(ix + 7) : contentType.substring(ix + 7, endIx);
-            }
-        }
-
-        soapAction = StringUtils.unquote(soapAction);
-
-        return soapAction;
     }
 
     public static XmlObject getBodyElement(XmlObject messageObject, SoapVersion soapVersion) throws XmlException {
@@ -184,243 +169,6 @@ public class SoapUtils {
     }
 
     @SuppressWarnings("unchecked")
-    public static WsdlOperation findOperationForRequest(SoapVersion soapVersion, String soapAction,
-                                                        XmlObject requestContent, List<WsdlOperation> operations, boolean requireSoapVersionMatch,
-                                                        boolean requireSoapActionMatch, Attachment[] attachments) throws Exception {
-        XmlObject contentElm = getContentElement(requestContent, soapVersion);
-        if (contentElm == null) {
-            for (WsdlOperation operation : operations) {
-                if (operation.getAction().equals(soapAction)
-                        && operation.getBindingOperation().getOperation().getInput().getMessage().getParts().size() == 0) {
-                    return operation;
-                }
-            }
-
-            return null;
-        }
-
-        QName contentQName = XmlUtils.getQName(contentElm.getDomNode());
-        NodeList contentChildNodes = null;
-
-        for (int c = 0; c < operations.size(); c++) {
-            WsdlOperation wsdlOperation = operations.get(c);
-            String action = wsdlOperation.getAction();
-
-            // matches soapAction?
-            if (!requireSoapActionMatch
-                    || ((soapAction == null && wsdlOperation.getAction() == null) || (action != null && action
-                    .equals(soapAction)))) {
-                QName qname = wsdlOperation.getRequestBodyElementQName();
-
-                if (!contentQName.equals(qname)) {
-                    continue;
-                }
-
-                SoapVersion ifaceSoapVersion = wsdlOperation.getInterface().getSoapVersion();
-
-                if (requireSoapVersionMatch && ifaceSoapVersion != soapVersion) {
-                    continue;
-                }
-
-                // check content
-                if (wsdlOperation.getStyle().equals(WsdlOperation.STYLE_DOCUMENT)) {
-                    // check that all attachments match
-                    BindingOperation bindingOperation = wsdlOperation.getBindingOperation();
-                    Message message = bindingOperation.getOperation().getInput().getMessage();
-                    List<Part> parts = message.getOrderedParts(null);
-
-                    for (int x = 0; x < parts.size(); x++) {
-                        // check for attachment part
-                        if (WsdlUtils.isAttachmentInputPart(parts.get(x), bindingOperation)) {
-                            for (Attachment attachment : attachments) {
-                                if (attachment.getPart().equals(parts.get(x).getName())) {
-                                    parts.remove(x);
-                                    x--;
-                                }
-                            }
-                        } else {
-                            parts.remove(x);
-                            x--;
-                        }
-                    }
-
-                    // matches!
-                    if (parts.isEmpty()) {
-                        return wsdlOperation;
-                    }
-                } else if (wsdlOperation.getStyle().equals(WsdlOperation.STYLE_RPC)) {
-                    BindingOperation bindingOperation = wsdlOperation.getBindingOperation();
-                    Message message = bindingOperation.getOperation().getInput().getMessage();
-                    List<Part> parts = message.getOrderedParts(null);
-
-                    if (contentChildNodes == null) {
-                        contentChildNodes = XmlUtils.getChildElements((Element) contentElm.getDomNode());
-                    }
-
-                    int i = 0;
-
-                    if (parts.size() > 0) {
-                        for (int x = 0; x < parts.size(); x++) {
-                            if (WsdlUtils.isAttachmentInputPart(parts.get(x), bindingOperation)) {
-                                for (Attachment attachment : attachments) {
-                                    if (attachment.getPart().equals(parts.get(x).getName())) {
-                                        parts.remove(x);
-                                        x--;
-                                    }
-                                }
-                            }
-
-                            // ignore header parts for now..
-                            if (x >= 0 && WsdlUtils.isHeaderInputPart(parts.get(x), message, bindingOperation)) {
-                                parts.remove(x);
-                                x--;
-                            }
-                        }
-
-                        for (; i < contentChildNodes.getLength() && !parts.isEmpty(); i++) {
-                            Node item = contentChildNodes.item(i);
-                            if (item.getNodeType() != Node.ELEMENT_NODE) {
-                                continue;
-                            }
-
-                            int j = 0;
-                            while ((j < parts.size()) && (!item.getNodeName().equals(parts.get(j).getName()))) {
-                                Part part = parts.get(j);
-                                if (part.getElementName() != null) {
-                                    QName qn = part.getElementName();
-                                    if (item.getLocalName().equals(qn.getLocalPart())
-                                            && item.getNamespaceURI().equals(qn.getNamespaceURI())) {
-                                        break;
-                                    }
-                                } else {
-                                    if (item.getNodeName().equals(parts.get(j).getName())) {
-                                        break;
-                                    }
-                                }
-
-                                j++;
-                            }
-
-                            if (j == parts.size()) {
-                                break;
-                            }
-
-                            parts.remove(j);
-                        }
-                    }
-
-                    // match?
-                    if (i == contentChildNodes.getLength() && parts.isEmpty()) {
-                        return wsdlOperation;
-                    }
-                }
-            }
-        }
-
-        throw new DispatchException("Missing operation for soapAction [" + soapAction + "] and body element ["
-                + contentQName + "] with SOAP Version [" + soapVersion + "]");
-    }
-
-    @SuppressWarnings("unchecked")
-    public static WsdlOperation findOperationForResponse(SoapVersion soapVersion, String soapAction,
-                                                         XmlObject responseContent, List<WsdlOperation> operations, boolean requireSoapVersionMatch,
-                                                         boolean requireSoapActionMatch) throws Exception {
-        XmlObject contentElm = getContentElement(responseContent, soapVersion);
-        if (contentElm == null) {
-            return null;
-        }
-
-        QName contentQName = XmlUtils.getQName(contentElm.getDomNode());
-        NodeList contentChildNodes = null;
-
-        for (int c = 0; c < operations.size(); c++) {
-            WsdlOperation wsdlOperation = operations.get(c);
-            String action = wsdlOperation.getAction();
-
-            // matches soapAction?
-            if (!requireSoapActionMatch
-                    || ((soapAction == null && wsdlOperation.getAction() == null) || (action != null && action
-                    .equals(soapAction)))) {
-                QName qname = wsdlOperation.getResponseBodyElementQName();
-
-                if (!contentQName.equals(qname)) {
-                    continue;
-                }
-
-                SoapVersion ifaceSoapVersion = wsdlOperation.getInterface().getSoapVersion();
-
-                if (requireSoapVersionMatch && ifaceSoapVersion != soapVersion) {
-                    continue;
-                }
-
-                // check content
-                if (wsdlOperation.getStyle().equals(WsdlOperation.STYLE_DOCUMENT)) {
-                    // matches!
-                    return wsdlOperation;
-                } else if (wsdlOperation.getStyle().equals(WsdlOperation.STYLE_RPC)) {
-                    BindingOperation bindingOperation = wsdlOperation.getBindingOperation();
-                    Message message = bindingOperation.getOperation().getOutput().getMessage();
-                    List<Part> parts = message.getOrderedParts(null);
-
-                    if (contentChildNodes == null) {
-                        contentChildNodes = XmlUtils.getChildElements((Element) contentElm.getDomNode());
-                    }
-
-                    int i = 0;
-
-                    if (parts.size() > 0) {
-                        for (int x = 0; x < parts.size(); x++) {
-                            if (WsdlUtils.isAttachmentOutputPart(parts.get(x), bindingOperation)
-                                    || WsdlUtils.isHeaderOutputPart(parts.get(x), message, bindingOperation)) {
-                                parts.remove(x);
-                                x--;
-                            }
-                        }
-
-                        for (; i < contentChildNodes.getLength() && !parts.isEmpty(); i++) {
-                            Node item = contentChildNodes.item(i);
-                            if (item.getNodeType() != Node.ELEMENT_NODE) {
-                                continue;
-                            }
-
-                            int j = 0;
-                            while ((j < parts.size()) && (!item.getNodeName().equals(parts.get(j).getName()))) {
-                                Part part = parts.get(j);
-                                if (part.getElementName() != null) {
-                                    QName qn = part.getElementName();
-                                    if (item.getLocalName().equals(qn.getLocalPart())
-                                            && item.getNamespaceURI().equals(qn.getNamespaceURI())) {
-                                        break;
-                                    }
-                                } else {
-                                    if (item.getNodeName().equals(parts.get(j).getName())) {
-                                        break;
-                                    }
-                                }
-
-                                j++;
-                            }
-
-                            if (j == parts.size()) {
-                                break;
-                            }
-
-                            parts.remove(j);
-                        }
-                    }
-
-                    // match?
-                    if (i == contentChildNodes.getLength() && parts.isEmpty()) {
-                        return wsdlOperation;
-                    }
-                }
-            }
-        }
-
-        throw new DispatchException("Missing response operation for soapAction [" + soapAction + "] and body element ["
-                + contentQName + "] with SOAP Version [" + soapVersion + "]");
-    }
-
     public static String removeEmptySoapHeaders(String content, SoapVersion soapVersion) throws XmlException {
         // XmlObject xmlObject = XmlObject.Factory.parse( content );
         XmlObject xmlObject = XmlUtils.createXmlObject(content);

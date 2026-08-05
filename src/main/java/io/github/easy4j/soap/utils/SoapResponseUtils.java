@@ -26,6 +26,7 @@ import org.w3c.dom.NodeList;
 
 import io.github.easy4j.soap.SoapUtils;
 import io.github.easy4j.soap.SoapVersion;
+import com.eviware.soapui.support.SoapUIException;
 
 public class SoapResponseUtils {
 	

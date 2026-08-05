@@ -88,7 +88,15 @@ public class SoapXmlUtils {
 	}
 	
 	public static boolean assertIsCollection(Node element) {
-		Comment firstComment = (Comment) SoapuiXmlUtils.getFirstChildByType(element, Node.COMMENT_NODE);
+		Comment firstComment = null;
+		NodeList children = element.getChildNodes();
+		for (int i = 0; i < children.getLength(); i++) {
+			Node child = children.item(i);
+			if (child.getNodeType() == Node.COMMENT_NODE) {
+				firstComment = (Comment) child;
+				break;
+			}
+		}
 		return ((firstComment != null) && (firstComment.getNodeValue().indexOf("Zero or more repetitions") != -1));
 	}
 	
