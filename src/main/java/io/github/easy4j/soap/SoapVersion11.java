@@ -14,7 +14,7 @@
  * under the Licence. 
  */
 
-package com.tianyin.dsb.client.okhttp.soap;
+package io.github.easy4j.soap;
 
 import org.apache.xmlbeans.SchemaType;
 import org.apache.xmlbeans.SchemaTypeLoader;
@@ -23,8 +23,13 @@ import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.xmlsoap.schemas.soap.envelope.EnvelopeDocument;
+import com.eviware.soapui.SoapUI;
+import com.eviware.soapui.SoapUIExtensionClassLoader;
+import com.eviware.soapui.SoapUIExtensionClassLoader.SoapUIClassLoaderState;
+import io.github.easy4j.soap.utils.XmlUtils;
 
 import javax.xml.namespace.QName;
+import org.apache.commons.lang3.StringUtils;
 import java.io.IOException;
 
 /**

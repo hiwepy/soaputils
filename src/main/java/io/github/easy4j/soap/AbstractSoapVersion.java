@@ -14,7 +14,7 @@
  * under the Licence. 
  */
 
-package com.tianyin.dsb.client.okhttp.soap;
+package io.github.easy4j.soap;
 
 import org.apache.xmlbeans.SchemaType;
 import org.apache.xmlbeans.SchemaTypeLoader;
