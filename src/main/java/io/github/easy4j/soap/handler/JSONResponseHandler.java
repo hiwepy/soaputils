@@ -9,7 +9,7 @@ import com.alibaba.fastjson.JSONObject;
 
 /**
  * Soap请求响应处理：返回JSONObject对象
- * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
+ * @author [@Loong Wan](https://github.com/loong10k)
  */
 public class JSONResponseHandler implements SoapResponseHandler<JSONObject> {
 
