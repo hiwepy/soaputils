@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, hiwepy (https://github.com/hiwepy).
+ * Copyright (c) 2018, Loong Wan (https://github.com/loong10k).
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,14 +23,14 @@ public interface SoapSignature {
 
 	/**
 	 * 通过Header增加签名参数
-	 * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
+	 * @author [@Loong Wan](https://github.com/loong10k)
 	 * @param header
 	 */
 	void sign(SOAPHeader header, String namespace) throws SOAPException;
 	
 	/**
 	 * 通过Body增加签名参数
-	 * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
+	 * @author [@Loong Wan](https://github.com/loong10k)
 	 * @param body
 	 */
 	void sign(SOAPBody body, String namespace) throws SOAPException;

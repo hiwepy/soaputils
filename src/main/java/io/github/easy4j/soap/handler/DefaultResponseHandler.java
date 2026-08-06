@@ -10,7 +10,7 @@ import io.github.easy4j.soap.SoapFaultUtils;
 
 /**
  * Soap请求响应处理：返回 javax.xml.soap.SOAPMessage 对象
- * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
+ * @author [@Loong Wan](https://github.com/loong10k)
  */
 public class DefaultResponseHandler implements SoapResponseHandler<SOAPMessage> {
 

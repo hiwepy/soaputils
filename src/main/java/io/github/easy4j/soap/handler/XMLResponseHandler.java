@@ -9,7 +9,7 @@ import org.w3c.dom.Document;
 
 /**
  * Soap请求响应处理：返回org.w3c.dom.Document对象
- * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
+ * @author [@Loong Wan](https://github.com/loong10k)
  */
 public class XMLResponseHandler implements SoapResponseHandler<Document> {
 
