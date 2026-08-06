@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package io.github.easy4j.soap;
+package io.github.easy4j.soap.utils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -32,10 +32,11 @@ import org.w3c.dom.NodeList;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import io.github.easy4j.soap.SoapFaultUtils;
 import io.github.easy4j.soap.type.SoapType;
 import io.github.easy4j.soap.type.SoapTypes;
 
-public class SoapResponseUtils {
+public class SoapMessageBuilder {
 
 	public static void build(Map<String, Object> variables, JSONArray jarray, SOAPMessage message) throws Exception {
 
