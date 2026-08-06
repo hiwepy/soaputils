@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, hiwepy (https://github.com/hiwepy).
+ * Copyright (c) 2018, Loong Wan (https://github.com/loong10k).
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -64,8 +64,10 @@ import org.xml.sax.XMLReader;
 import io.github.easy4j.soap.Constants;
 import io.github.easy4j.soap.SoapVersion;
 
-import net.sf.saxon.expr.Token;
-import net.sf.saxon.expr.Tokenizer;
+import com.eviware.soapui.SoapUI;
+import com.eviware.soapui.support.types.StringToStringMap;
+import com.eviware.soapui.support.xml.XPathData;
+import com.eviware.soapui.support.xml.XPathModifier;
 import org.apache.xerces.util.SecurityManager;
 
 /**
@@ -988,11 +990,11 @@ public final class XmlUtils {
         String localName = typeName.substring(ix + 1);
         String namespaceUri = elm.getAttribute("xmlns:" + prefix);
 
-        if (!StringUtils.hasContent(namespaceUri)) {
+        if (!StringUtils.isNotEmpty(namespaceUri)) {
             namespaceUri = findNamespaceForPrefix(elm, prefix);
         }
 
-        if (StringUtils.hasContent(namespaceUri)) {
+        if (StringUtils.isNotEmpty(namespaceUri)) {
             return new QName(namespaceUri, localName);
         }
 
@@ -1285,23 +1287,23 @@ public final class XmlUtils {
     }
 
     public static String replaceNameInPathOrQuery(String pathOrQuery, String oldName, String newName) throws Exception {
-        Tokenizer t = new Tokenizer();
-        t.tokenize(pathOrQuery, 0, -1, 1);
-        StringBuffer result = new StringBuffer();
-        int lastIx = 0;
-
-        while (t.currentToken != Token.EOF) {
-            if (t.currentToken == Token.NAME && t.currentTokenValue.equals(oldName)) {
-                result.append(pathOrQuery.substring(lastIx, t.currentTokenStartOffset));
-                result.append(newName);
-                lastIx = t.currentTokenStartOffset + t.currentTokenValue.length();
+        // self-contained name-token scanner (no saxon internals)
+        StringBuilder result = new StringBuilder();
+        StringBuilder token = new StringBuilder();
+        for (int i = 0; i < pathOrQuery.length(); i++) {
+            char c = pathOrQuery.charAt(i);
+            if (Character.isLetterOrDigit(c) || c == '_' || c == '-' || c == ':') {
+                token.append(c);
+            } else {
+                if (token.length() > 0) {
+                    result.append(token.toString().equals(oldName) ? newName : token);
+                    token.setLength(0);
+                }
+                result.append(c);
             }
-
-            t.next();
         }
-
-        if (lastIx < pathOrQuery.length()) {
-            result.append(pathOrQuery.substring(lastIx));
+        if (token.length() > 0) {
+            result.append(token.toString().equals(oldName) ? newName : token);
         }
         //
         System.out.println("returning " + result.toString());

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, hiwepy (https://github.com/hiwepy).
+ * Copyright (c) 2018, Loong Wan (https://github.com/loong10k).
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package io.github.easy4j.soap;
+package io.github.easy4j.soap.utils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -32,10 +32,11 @@ import org.w3c.dom.NodeList;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import io.github.easy4j.soap.SoapFaultUtils;
 import io.github.easy4j.soap.type.SoapType;
 import io.github.easy4j.soap.type.SoapTypes;
 
-public class SoapResponseUtils {
+public class SoapMessageBuilder {
 
 	public static void build(Map<String, Object> variables, JSONArray jarray, SOAPMessage message) throws Exception {
 
@@ -83,7 +84,7 @@ public class SoapResponseUtils {
 		return root;
 	}
 
-	private static SOAPElement getElement(Iterator<SOAPElement> it, String name) {
+	private static SOAPElement getElement(Iterator<?> it, String name) {
 		while (it.hasNext()) {
 			SOAPElement element = (SOAPElement) it.next();
 			String tagName = element.getTagName();

@@ -1,4 +1,4 @@
-package com.tianyin.dsb.client.okhttp.soap;
+package io.github.easy4j.soap;
 
 
 import org.apache.xmlbeans.SchemaType;
@@ -8,6 +8,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlValidationError;
 
 import javax.xml.namespace.QName;
+import org.apache.commons.lang3.StringUtils;
 import java.io.IOException;
 import java.util.List;
 
@@ -65,7 +66,7 @@ public interface SoapVersion {
 
     public static class Utils {
         public static SoapVersion getSoapVersionForContentType(String contentType, SoapVersion def) {
-            if (StringUtils.isNullOrEmpty(contentType)) {
+            if (StringUtils.isEmpty(contentType)) {
                 return def;
             }
 
