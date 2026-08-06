@@ -6,7 +6,7 @@
     <name>${project.groupId}:${project.artifactId}</name>
     <url>https://github.com/easy-4-java/${project.artifactId}</url>
     <version>3.0.x.20260630-SNAPSHOT</version>
-    <description>HttpURLConnection Extend</description>
+    <description>Soap Extend Utils</description>
     <packaging>jar</packaging>
 
     <!-- 开源协议采用 Apache 2.0 协议 -->
@@ -344,6 +344,7 @@
                 <jdk>[1.8,)</jdk>
             </activation>
             <properties>
+		<xercesImpl.version>2.12.2</xercesImpl.version>
                 <central-publishing-maven-plugin.version>0.11.0</central-publishing-maven-plugin.version>
                 <lombok.version>1.18.46</lombok.version>
                 <additionalparam>-Xdoclint:none</additionalparam>
@@ -584,13 +585,13 @@
             <dependency>
                 <groupId>xerces</groupId>
                 <artifactId>xercesImpl</artifactId>
-                <version>2.12.0</version>
+                <version>${xercesImpl.version}</version>
             </dependency>
             <!-- For Groovy -->
             <dependency>
                 <groupId>org.codehaus.groovy</groupId>
                 <artifactId>groovy</artifactId>
-                <version>3.0.0-alpha-2</version>
+                <version>3.0.21</version>
             </dependency>
             <!-- For SoapUI -->
             <dependency>
