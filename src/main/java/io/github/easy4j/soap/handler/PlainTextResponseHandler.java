@@ -7,7 +7,7 @@ import javax.xml.soap.SOAPMessage;
 
 /**
  * Soap请求响应处理：返回java.lang.String对象
- * @author 		： <a href="https://github.com/hiwepy">hiwepy</a>
+ * @author [@Loong Wan](https://github.com/loong10k)
  */
 public class PlainTextResponseHandler implements SoapResponseHandler<String> {
 
