@@ -34,6 +34,22 @@ jobs:
           java-version: '8'
           cache: maven
 
+      - name: Install vendored SoapUI dependency
+        env:
+          EASY4J_BRANCH: ${{ github.base_ref || github.ref_name }}
+        run: |
+          dependency_root="${RUNNER_TEMP}/soapui-template"
+          git clone --depth 1 --branch "${EASY4J_BRANCH}" \
+            https://github.com/easy-4-java/soapui-template.git \
+            "${dependency_root}"
+          mvn -B --no-transfer-progress install:install-file \
+            -Dfile="${dependency_root}/SoapUI Jar/com/eviware/soapui/5.4.0/soapui-5.4.0.jar" \
+            -DgroupId=com.eviware \
+            -DartifactId=soapui \
+            -Dversion=5.4.0 \
+            -Dpackaging=jar \
+            -DgeneratePom=true
+
       - name: Build and verify with JaCoCo coverage gate
         run: mvn -B --no-transfer-progress clean verify
 
