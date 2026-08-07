@@ -4,7 +4,7 @@
 #   - push / pull_request on the feature/2.0.x branch
 #   - manual workflow_dispatch
 #
-# Runs `./mvnw -B clean verify` which includes the JaCoCo coverage gate
+# Runs `mvn -B clean verify` which includes the JaCoCo coverage gate
 # (90% line coverage, haltOnFailure=false) configured in the POM.
 name: CI
 
@@ -25,21 +25,37 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Checkout source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
           cache: maven
 
+      - name: Install vendored SoapUI dependency
+        env:
+          EASY4J_BRANCH: ${{ github.base_ref || github.ref_name }}
+        run: |
+          dependency_root="${RUNNER_TEMP}/soapui-template"
+          git clone --depth 1 --branch "${EASY4J_BRANCH}" \
+            https://github.com/easy-4-java/soapui-template.git \
+            "${dependency_root}"
+          mvn -B --no-transfer-progress install:install-file \
+            -Dfile="${dependency_root}/SoapUI Jar/com/eviware/soapui/5.4.0/soapui-5.4.0.jar" \
+            -DgroupId=com.eviware \
+            -DartifactId=soapui \
+            -Dversion=5.4.0 \
+            -Dpackaging=jar \
+            -DgeneratePom=true
+
       - name: Build and verify with JaCoCo coverage gate
-        run: ./mvnw -B --no-transfer-progress clean verify
+        run: mvn -B --no-transfer-progress clean verify
 
       - name: Upload JaCoCo coverage report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: jacoco-coverage
           path: target/site/jacoco
@@ -47,7 +63,7 @@ jobs:
 
       - name: Upload surefire reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: surefire-reports
           path: target/surefire-reports
