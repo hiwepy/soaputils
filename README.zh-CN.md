@@ -4,6 +4,8 @@
 
 [![Java](https://img.shields.io/badge/Java-21-orange)](https://github.com/easy-4-java/soap-utils) [![License](https://img.shields.io/badge/license-Apache%202.0-green)](./LICENSE)
 
+soaputils（制品名 soap-utils，"Soap Extend Utils"）是基于 XMLBeans 与 SoapUI 引擎的纯 Java SOAP 消息工具库。
+
 ## 目录
 
 - [1. Project Overview](#1-project-overview)
