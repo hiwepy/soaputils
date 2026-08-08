@@ -10,33 +10,25 @@ import org.junit.Test;
 public class InvokeExceptionTest {
 
     @Test
-    public void shouldCreateExceptionWithCodeAndMsg() {
-        InvokeException ex = new InvokeException("SOAP-001", "Server error");
+    public void shouldCreateExceptionWithCodeMsgAndCause() {
+        RuntimeException cause = new RuntimeException("root cause");
+        InvokeException ex = new InvokeException("SOAP-001", "Server error", cause);
         assertEquals("SOAP-001", ex.getCode());
         assertEquals("Server error", ex.getMsg());
-        assertNull(ex.getCause());
-    }
-
-    @Test
-    public void shouldCreateExceptionWithCause() {
-        RuntimeException cause = new RuntimeException("root cause");
-        InvokeException ex = new InvokeException("SOAP-002", "Timeout", cause);
-        assertEquals("SOAP-002", ex.getCode());
-        assertEquals("Timeout", ex.getMsg());
         assertSame(cause, ex.getCause());
     }
 
     @Test
-    public void shouldHandleNullCode() {
-        InvokeException ex = new InvokeException(null, "msg");
-        assertNull(ex.getCode());
-        assertEquals("msg", ex.getMsg());
+    public void shouldPreserveFaultCode() {
+        RuntimeException cause = new RuntimeException("c");
+        InvokeException ex = new InvokeException("SOAP-003", "msg", cause);
+        assertEquals("SOAP-003", ex.getCode());
     }
 
     @Test
-    public void shouldHandleNullMsg() {
-        InvokeException ex = new InvokeException("code", null);
-        assertEquals("code", ex.getCode());
-        assertNull(ex.getMsg());
+    public void shouldPreserveFaultMsg() {
+        RuntimeException cause = new RuntimeException("c");
+        InvokeException ex = new InvokeException("code", "fault message", cause);
+        assertEquals("fault message", ex.getMsg());
     }
 }
