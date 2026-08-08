@@ -33,9 +33,14 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.IOException;
 
 /**
- * SoapVersion for SOAP 1.1
+ * {@link SoapVersion} implementation for SOAP 1.2 ({@code http://www.w3.org/2003/05/soap-envelope}).
+ * Uses the {@code application/soap+xml} content type and SOAP encoding namespace.
+ * Schema resources are loaded from SoapUI's bundled XSD files at class-load time.
  *
- * @author ole.matzura
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see SoapVersion11
+ * @see Constants#SOAP12_ENVELOPE_NS
  */
 
 public class SoapVersion12 extends AbstractSoapVersion {

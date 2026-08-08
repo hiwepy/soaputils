@@ -11,6 +11,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.NodeList;
 
+/**
+ * {@link SoapType} implementation that handles arbitrary Java bean (POJO)
+ * objects via reflection. Each field of the bean is mapped to a child
+ * element of the SOAP element with a matching tag name.
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see BaseSoapType
+ * @see SoapTypes#bean
+ */
 public class BeanSoapType extends BaseSoapType {
 	private static Logger logger = LoggerFactory.getLogger(BaseSoapType.class);
 

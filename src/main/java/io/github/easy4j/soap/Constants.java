@@ -17,9 +17,15 @@
 package io.github.easy4j.soap;
 
 /**
- * Namespace Constants
+ * Centralised namespace constants used throughout the SOAP utility library.
+ * Contains XML Schema, WSDL, SOAP 1.1/1.2 envelope, encoding,
+ * and binding namespace URIs as well as related XSI and WADL constants.
  *
- * @author ole.matzura
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see io.github.easy4j.soap.SoapVersion
+ * @see io.github.easy4j.soap.SoapVersion11
+ * @see io.github.easy4j.soap.SoapVersion12
  */
 
 public final class Constants {

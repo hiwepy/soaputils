@@ -21,23 +21,32 @@ import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 
 /**
- * Handler that encapsulates the process of generating a response object
- * from a {@link javax.xml.soap.SOAPMessage}.
+ * Strategy interface for processing SOAP responses. Implementations
+ * transform a raw {@link SOAPMessage} into a domain-specific type {@code T}
+ * and may perform pre-processing on the underlying HTTP connection.
+ *
+ * @param <T> the response type produced by this handler
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see io.github.easy4j.soap.SoapUtils2
  */
 public interface SoapResponseHandler<T> {
 
 	/**
-	 * 对HttpURLConnection进行预处理
-	 * @param httpConn {@link java.net.HttpURLConnection} 对象
+	 * Pre-processes the HTTP connection before the SOAP request is sent.
+	 * Implementations may set custom headers, timeouts, or other connection
+	 * properties.
+	 *
+	 * @param httpConn the HTTP connection to pre-process
 	 */
 	void preHandle(HttpURLConnection httpConn);
-	
+
 	/**
-	 * TODO
-	 * @author [@Loong Wan](https://github.com/loong10k)
-	 * @param response
-	 * @return
-	 * @throws SOAPException
+	 * Processes the SOAP response message and converts it to the target type.
+	 *
+	 * @param response the SOAP response message to process
+	 * @return the converted response object, may be {@code null}
+	 * @throws SOAPException if the response cannot be processed
 	 */
     T handleResponse(SOAPMessage response) throws SOAPException;
     

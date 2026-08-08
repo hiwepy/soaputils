@@ -71,7 +71,15 @@ import com.eviware.soapui.support.xml.XPathModifier;
 import org.apache.xerces.util.SecurityManager;
 
 /**
- * General XML-related utilities
+ * Comprehensive XML utility library providing DOM parsing, serialization,
+ * XPath creation, namespace management, and element manipulation helpers.
+ * Wraps Apache XmlBeans and standard DOM operations with convenience
+ * methods used throughout the SOAP utility framework.
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see org.w3c.dom.Document
+ * @see org.apache.xmlbeans.XmlObject
  */
 
 @SuppressWarnings("deprecation")
@@ -79,6 +87,11 @@ public final class XmlUtils {
     private static DocumentBuilder documentBuilder;
     private final static Logger log = LoggerFactory.getLogger(XmlUtils.class);
 
+    /**
+     * Parses an XML document from an input stream.
+     * @param in the input stream containing XML
+     * @return the parsed {@link Document}, or {@code null} on error
+     */
     static synchronized public Document parse(InputStream in) {
         try {
             return ensureDocumentBuilder().parse(in);
@@ -89,6 +102,12 @@ public final class XmlUtils {
         return null;
     }
 
+    /**
+     * Parses an XML document from a file path or URL string.
+     * @param fileName the file path or URL to parse
+     * @return the parsed {@link Document}, or {@code null} on SAX error
+     * @throws IOException if an I/O error occurs
+     */
     static synchronized public Document parse(String fileName) throws IOException {
         try {
             return ensureDocumentBuilder().parse(fileName);
@@ -99,15 +118,32 @@ public final class XmlUtils {
         return null;
     }
 
+    /**
+     * Escapes all XML special characters ({@code & < > " '}) in the given string.
+     * @param xml the raw string to entitize
+     * @return the XML-escaped string
+     */
     public static String entitize(String xml) {
         return xml.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
                 .replaceAll("\"", "&quot;").replaceAll("'", "&apos;");
     }
 
+    /**
+     * Escapes ampersand, double-quote and single-quote characters in the given string.
+     * Angle brackets are left unchanged (suitable for text content, not full XML).
+     * @param xml the raw string to entitize
+     * @return the partially escaped string
+     */
     public static String entitizeContent(String xml) {
         return xml.replaceAll("&", "&amp;").replaceAll("\"", "&quot;").replaceAll("'", "&apos;");
     }
 
+    /**
+     * Parses an XML document from a SAX {@link InputSource}.
+     * @param inputSource the SAX input source
+     * @return the parsed {@link Document}
+     * @throws IOException if a SAX or I/O error occurs
+     */
     static synchronized public Document parse(InputSource inputSource) throws IOException {
         try {
             return ensureDocumentBuilder().parse(inputSource);
@@ -130,6 +166,11 @@ public final class XmlUtils {
         return documentBuilder;
     }
 
+    /**
+     * Serializes a DOM document to a pretty-printed XML string.
+     * @param document the document to serialize
+     * @return the pretty-printed XML string, or {@code null} on error
+     */
     public static String serializePretty(Document document) {
         try {
             Writer out = new StringWriter();
@@ -141,6 +182,12 @@ public final class XmlUtils {
         return null;
     }
 
+    /**
+     * Serializes a DOM document to a writer with pretty-printing.
+     * @param dom    the document to serialize
+     * @param writer the output writer
+     * @throws IOException if serialization fails
+     */
     public static void serializePretty(Document dom, Writer writer) throws IOException {
         try {
             XmlObject xmlObject = XmlObject.Factory.parse(dom.getDocumentElement());
@@ -150,6 +197,12 @@ public final class XmlUtils {
         }
     }
 
+    /**
+     * Serializes an XmlObject to a writer with pretty-printing.
+     * @param xmlObject the XML object to serialize
+     * @param writer    the output writer
+     * @throws IOException if serialization fails
+     */
     public static void serializePretty(XmlObject xmlObject, Writer writer) throws IOException {
         XmlOptions options = new XmlOptions();
         options.setSavePrettyPrint();
@@ -205,10 +258,22 @@ public final class XmlUtils {
         }
     }
 
+    /**
+     * Creates an {@link XmlObject} by parsing the given XML string.
+     * @param input the XML string to parse
+     * @return the parsed XmlObject
+     * @throws XmlException if the input is not valid XML
+     */
     public static XmlObject createXmlObject(String input) throws XmlException {
         return XmlObject.Factory.parse(input);
     }
 
+    /**
+     * Creates an {@link XmlObject} by parsing XML from a URL.
+     * @param input the URL to read XML from
+     * @return the parsed XmlObject
+     * @throws XmlException if the content cannot be parsed
+     */
     public static XmlObject createXmlObject(URL input) throws XmlException {
         try {
             return XmlObject.Factory.parse(input);
@@ -217,10 +282,22 @@ public final class XmlUtils {
         }
     }
 
+    /**
+     * Creates an {@link XmlObject} by wrapping a DOM node.
+     * @param input the DOM node to wrap
+     * @return the XmlObject wrapping the node
+     * @throws XmlException if wrapping fails
+     */
     public static XmlObject createXmlObject(Node input) throws XmlException {
         return XmlObject.Factory.parse(input);
     }
 
+    /**
+     * Creates an {@link XmlObject} by parsing XML from a file.
+     * @param input the file to read XML from
+     * @return the parsed XmlObject
+     * @throws XmlException if the content cannot be parsed
+     */
     public static XmlObject createXmlObject(File input) throws XmlException {
         try {
             return XmlObject.Factory.parse(input);
@@ -446,6 +523,12 @@ public final class XmlUtils {
         setElementText(elm, text);
     }
 
+    /**
+     * Parses an XML document from a string.
+     * @param xmlString the XML string to parse
+     * @return the parsed {@link Document}
+     * @throws IOException if parsing fails
+     */
     public static Document parseXml(String xmlString) throws IOException {
         return parse(new InputSource(new StringReader(xmlString)));
     }
@@ -966,6 +1049,11 @@ public final class XmlUtils {
         return new ElementNodeList(list);
     }
 
+    /**
+     * Serializes a DOM document to an XML string.
+     * @param document the document to serialize
+     * @return the XML string
+     */
     public static String serialize(Document document) {
         StringWriter writer = new StringWriter();
         try {
@@ -1200,6 +1288,11 @@ public final class XmlUtils {
         }
     }
 
+    /**
+     * Tests whether the given string can be parsed as valid XML.
+     * @param str the string to test
+     * @return {@code true} if the string is valid XML
+     */
     public static boolean seemsToBeXml(String str) {
         try {
             if (StringUtils.isBlank(str)) {

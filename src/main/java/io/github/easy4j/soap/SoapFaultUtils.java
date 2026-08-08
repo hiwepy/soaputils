@@ -23,8 +23,27 @@ import javax.xml.soap.SOAPMessage;
 
 import io.github.easy4j.soap.exception.InvokeException;
 
+/**
+ * Utility class for inspecting SOAP response messages and detecting faults.
+ * When a SOAP fault is present in the response body, an {@link InvokeException}
+ * is thrown containing the fault code and fault string from the response.
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see io.github.easy4j.soap.exception.InvokeException
+ * @see javax.xml.soap.SOAPFault
+ */
 public class SoapFaultUtils {
 
+	/**
+	 * Checks whether the given SOAP response contains a fault element.
+	 * If a fault with a non-null fault code is found, an {@link InvokeException}
+	 * is thrown with the fault code and fault string.
+	 *
+	 * @param response the SOAP response message to inspect
+	 * @throws SOAPException  if the SOAP envelope cannot be read
+	 * @throws InvokeException if the response contains a SOAP fault
+	 */
 	public static void checkFault(SOAPMessage response) throws SOAPException {
 		SOAPEnvelope envelope = response.getSOAPPart().getEnvelope();
 		SOAPBody body = envelope.getBody();

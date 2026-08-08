@@ -36,8 +36,29 @@ import io.github.easy4j.soap.SoapFaultUtils;
 import io.github.easy4j.soap.type.SoapType;
 import io.github.easy4j.soap.type.SoapTypes;
 
+/**
+ * Utility class for populating SOAP message body elements from a JSON-based
+ * binding configuration. Extracts values from a received {@link SOAPMessage}
+ * and writes them into a variables map according to the binding definitions
+ * in a {@link JSONArray}.
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see io.github.easy4j.soap.SoapFaultUtils
+ * @see io.github.easy4j.soap.type.SoapTypes
+ */
 public class SoapMessageBuilder {
 
+	/**
+	 * Builds response variables from a SOAP message using the given JSON binding
+	 * configuration. First checks for SOAP faults, then iterates over the body
+	 * child elements and applies each binding definition.
+	 *
+	 * @param variables the target map to populate with extracted values
+	 * @param jarray    the JSON array of binding definitions
+	 * @param message   the received SOAP response message
+	 * @throws Exception if fault checking or value extraction fails
+	 */
 	public static void build(Map<String, Object> variables, JSONArray jarray, SOAPMessage message) throws Exception {
 
 		SoapFaultUtils.checkFault(message);
