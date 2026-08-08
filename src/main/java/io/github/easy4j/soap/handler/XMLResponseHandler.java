@@ -8,8 +8,13 @@ import javax.xml.soap.SOAPMessage;
 import org.w3c.dom.Document;
 
 /**
- * Soap请求响应处理：返回org.w3c.dom.Document对象
+ * {@link SoapResponseHandler} implementation that extracts the SOAP body
+ * content as a {@link org.w3c.dom.Document} via
+ * {@link javax.xml.soap.SOAPBody#extractContentAsDocument()}.
+ *
  * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see SoapResponseHandler
  */
 public class XMLResponseHandler implements SoapResponseHandler<Document> {
 

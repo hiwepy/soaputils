@@ -12,6 +12,15 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/**
+ * {@link SoapType} implementation that handles {@link List} values.
+ * Maps list items to repeated sibling SOAP elements with the same tag name.
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see BaseSoapType
+ * @see SoapTypes#list
+ */
 public class ListSoapType extends BaseSoapType {
 	private static Logger logger = LoggerFactory.getLogger(BaseSoapType.class);
 	private Class<?> currentClass;

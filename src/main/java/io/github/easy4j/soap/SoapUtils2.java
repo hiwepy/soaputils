@@ -20,6 +20,19 @@ import io.github.easy4j.soap.handler.SoapResponseHandler;
 import io.github.easy4j.soap.signature.DefaultSoapSignature;
 import io.github.easy4j.soap.signature.SoapSignature;
 
+/**
+ * High-level convenience facade for sending SOAP requests and receiving
+ * responses. Supports both SOAP 1.1 and SOAP 1.2 protocols, with
+ * pluggable {@link SoapResponseHandler} and {@link SoapSignature}
+ * strategies. Also provides connection timeout configuration and
+ * a simple {@code notNull} assertion helper.
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see SoapRequestUtils
+ * @see io.github.easy4j.soap.handler.SoapResponseHandler
+ * @see io.github.easy4j.soap.signature.SoapSignature
+ */
 public class SoapUtils2 {
 	
 	private static Integer _connTimeout = Integer.valueOf(0);
@@ -29,20 +42,65 @@ public class SoapUtils2 {
 	public static SoapResponseHandler<SOAPMessage> DEFAULT_HANDLER = new DefaultResponseHandler();
 	public static SoapSignature DEFAULT_SIGNATURE = new DefaultSoapSignature();
 	
+	/**
+	 * Returns the text content of the named attribute on the given DOM node,
+	 * or {@code null} if the attribute is not present.
+	 *
+	 * @param node the DOM node to inspect
+	 * @param name the attribute name
+	 * @return the attribute text content, or {@code null}
+	 */
 	public static String getAttribute(Node node, String name) {
 		Node tmp = node.getAttributes().getNamedItem(name);
 		return tmp != null ? tmp.getTextContent() : null;
 	}
 	
+	/**
+	 * Sends a SOAP 1.1 request and returns the raw {@link SOAPMessage} response.
+	 *
+	 * @param namespace the target namespace for the SOAP body element
+	 * @param wsdlUrl   the WSDL endpoint URL to invoke
+	 * @param method    the SOAP operation method name
+	 * @param params    a map of parameter names to values
+	 * @return the SOAP response message
+	 * @throws SOAPException if the request fails
+	 */
 	public static SOAPMessage soapRequest(String namespace, String wsdlUrl, String method, Map<String, Object> params) throws SOAPException {
 		return soapRequest(namespace, wsdlUrl, method, params, DEFAULT_HANDLER, DEFAULT_SIGNATURE );
 	}
 	
-	public static <T> T soapRequest(String namespace, String wsdlUrl, String method, Map<String, Object> params, 
+	/**
+	 * Sends a SOAP 1.1 request and processes the response using the given handler.
+	 *
+	 * @param namespace the target namespace for the SOAP body element
+	 * @param wsdlUrl   the WSDL endpoint URL to invoke
+	 * @param method    the SOAP operation method name
+	 * @param params    a map of parameter names to values
+	 * @param handler   the response handler to transform the SOAP message
+	 * @param <T>       the response type produced by the handler
+	 * @return the handler-produced result
+	 * @throws SOAPException if the request fails
+	 */
+	public static <T> T soapRequest(String namespace, String wsdlUrl, String method, Map<String, Object> params,
 			SoapResponseHandler<T> handler) throws SOAPException {
 		return soapRequest(namespace, wsdlUrl, method, params, handler, DEFAULT_SIGNATURE);
 	}
 	
+	/**
+	 * Sends a SOAP 1.1 request with a custom signature strategy and
+	 * processes the response using the given handler.
+	 *
+	 * @param namespace the target namespace for the SOAP body element
+	 * @param wsdlUrl   the WSDL endpoint URL to invoke
+	 * @param method    the SOAP operation method name
+	 * @param params    a map of parameter names to values
+	 * @param handler   the response handler to transform the SOAP message
+	 * @param signature the signature strategy for the request
+	 * @param <T>       the response type produced by the handler
+	 * @return the handler-produced result
+	 * @throws SOAPException if the request fails
+	 * @throws IllegalArgumentException if wsdlUrl, namespace, or method is {@code null}
+	 */
 	public static <T> T soapRequest(String namespace, String wsdlUrl, String method, Map<String, Object> params,
 			SoapResponseHandler<T> handler, SoapSignature signature) throws SOAPException {
 		
@@ -55,15 +113,52 @@ public class SoapUtils2 {
 		return invoke(wsdlUrl, soapRequest, handler);
 	}
 	
+	/**
+	 * Sends a SOAP 1.2 request and returns the raw {@link SOAPMessage} response.
+	 *
+	 * @param namespace the target namespace for the SOAP body element
+	 * @param wsdlUrl   the WSDL endpoint URL to invoke
+	 * @param method    the SOAP operation method name
+	 * @param params    a map of parameter names to values
+	 * @return the SOAP response message
+	 * @throws SOAPException if the request fails
+	 */
 	public static SOAPMessage soap12Request(String namespace, String wsdlUrl, String method, Map<String, Object> params) throws SOAPException {
 		return soap12Request(namespace, wsdlUrl, method, params, DEFAULT_HANDLER, DEFAULT_SIGNATURE );
 	}
 	
-	public static <T> T soap12Request(String namespace, String wsdlUrl, String method, Map<String, Object> params, 
+	/**
+	 * Sends a SOAP 1.2 request and processes the response using the given handler.
+	 *
+	 * @param namespace the target namespace for the SOAP body element
+	 * @param wsdlUrl   the WSDL endpoint URL to invoke
+	 * @param method    the SOAP operation method name
+	 * @param params    a map of parameter names to values
+	 * @param handler   the response handler to transform the SOAP message
+	 * @param <T>       the response type produced by the handler
+	 * @return the handler-produced result
+	 * @throws SOAPException if the request fails
+	 */
+	public static <T> T soap12Request(String namespace, String wsdlUrl, String method, Map<String, Object> params,
 			SoapResponseHandler<T> handler) throws SOAPException {
 		return soap12Request(namespace, wsdlUrl, method, params, handler, DEFAULT_SIGNATURE);
 	}
 	
+	/**
+	 * Sends a SOAP 1.2 request with a custom signature strategy and
+	 * processes the response using the given handler.
+	 *
+	 * @param namespace the target namespace for the SOAP body element
+	 * @param wsdlUrl   the WSDL endpoint URL to invoke
+	 * @param method    the SOAP operation method name
+	 * @param params    a map of parameter names to values
+	 * @param handler   the response handler to transform the SOAP message
+	 * @param signature the signature strategy for the request
+	 * @param <T>       the response type produced by the handler
+	 * @return the handler-produced result
+	 * @throws SOAPException if the request fails
+	 * @throws IllegalArgumentException if wsdlUrl, namespace, or method is {@code null}
+	 */
 	public static <T> T soap12Request(String namespace, String wsdlUrl, String method, Map<String, Object> params,
 			SoapResponseHandler<T> handler, SoapSignature signature) throws SOAPException {
 		

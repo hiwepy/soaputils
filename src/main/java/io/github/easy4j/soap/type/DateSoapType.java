@@ -6,6 +6,16 @@ import javax.xml.soap.SOAPElement;
 import org.apache.xmlbeans.XmlDateTime;
 import org.apache.xmlbeans.impl.values.XmlDateTimeImpl;
 
+/**
+ * {@link SoapType} implementation that handles date and time values
+ * including {@link Date} and {@link Calendar}. Uses XmlBeans
+ * {@link XmlDateTime} for ISO-8601 serialization.
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see BaseSoapType
+ * @see SoapTypes#date
+ */
 public class DateSoapType extends BaseSoapType {
 	
 	public Class<?>[] getBeanTypes() {

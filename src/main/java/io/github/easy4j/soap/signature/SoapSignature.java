@@ -19,20 +19,34 @@ import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPHeader;
 
+/**
+ * Strategy interface for adding security signatures or credentials to
+ * SOAP request messages. Implementations can sign the SOAP header,
+ * body, or both before the message is sent.
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see DefaultSoapSignature
+ * @see io.github.easy4j.soap.SoapRequestUtils
+ */
 public interface SoapSignature {
 
 	/**
-	 * 通过Header增加签名参数
-	 * @author [@Loong Wan](https://github.com/loong10k)
-	 * @param header
+	 * Adds signature or authentication elements to the SOAP header.
+	 *
+	 * @param header    the SOAP header to sign
+	 * @param namespace the target namespace for the signature elements
+	 * @throws SOAPException if signing fails
 	 */
 	void sign(SOAPHeader header, String namespace) throws SOAPException;
-	
+
 	/**
-	 * 通过Body增加签名参数
-	 * @author [@Loong Wan](https://github.com/loong10k)
-	 * @param body
+	 * Adds signature or authentication elements to the SOAP body.
+	 *
+	 * @param body      the SOAP body to sign
+	 * @param namespace the target namespace for the signature elements
+	 * @throws SOAPException if signing fails
 	 */
 	void sign(SOAPBody body, String namespace) throws SOAPException;
-	
+
 }

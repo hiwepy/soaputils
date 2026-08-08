@@ -35,12 +35,27 @@ import com.eviware.soapui.SoapUI;
 import io.github.easy4j.soap.utils.XmlUtils;
 
 /**
- * SOAP-related utility-methods..
+ * General-purpose SOAP utility methods for inspecting, parsing and
+ * transforming SOAP XML content. Includes helpers for fault detection,
+ * SOAP version deduction, body/header extraction, and header transfer
+ * between SOAP messages.
  *
- * @author ole.matzura
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see SoapVersion
+ * @see io.github.easy4j.soap.utils.XmlUtils
  */
 
 public class SoapUtils {
+    /**
+     * Checks whether the given response content contains a SOAP fault for
+     * the specified SOAP version.
+     *
+     * @param responseContent the XML string of the SOAP response
+     * @param soapVersion     the SOAP version to check against
+     * @return {@code true} if a {@code Fault} element is found in the envelope body
+     * @throws XmlException if the response content cannot be parsed as XML
+     */
     public static boolean isSoapFault(String responseContent, SoapVersion soapVersion) throws XmlException {
         if (StringUtils.isEmpty(responseContent)) {
             return false;
@@ -60,17 +75,27 @@ public class SoapUtils {
         return false;
     }
 
+    /**
+     * Checks whether the given response content contains a SOAP fault,
+     * trying both SOAP 1.2 and SOAP 1.1 namespaces.
+     *
+     * @param responseContent the XML string of the SOAP response
+     * @return {@code true} if a fault is detected under either SOAP version
+     * @throws XmlException if the response content cannot be parsed as XML
+     */
     public static boolean isSoapFault(String responseContent) throws XmlException {
         return isSoapFault(responseContent, SoapVersion.Soap12) || isSoapFault(responseContent, SoapVersion.Soap11);
     }
 
     /**
-     * Init soapversion from content-type header.. should envelope be checked
-     * and/or override?
+     * Deduces the SOAP version from the content-type header and/or the
+     * parsed XML object. The XML envelope namespace takes precedence;
+     * the content-type header is used as a fallback.
      *
-     * @param xmlObject
+     * @param contentType the HTTP Content-Type header value (may be {@code null})
+     * @param xmlObject   the parsed XML object of the SOAP message (may be {@code null})
+     * @return the deduced {@link SoapVersion}, or {@code null} if it cannot be determined
      */
-
     public static SoapVersion deduceSoapVersion(String contentType, XmlObject xmlObject) {
         if (xmlObject != null) {
             Element elm = ((Document) (xmlObject.getDomNode())).getDocumentElement();
@@ -103,6 +128,14 @@ public class SoapUtils {
         return soapVersion;
     }
 
+    /**
+     * Extracts the SOAP Body element from the given message object.
+     *
+     * @param messageObject the parsed SOAP message XML object
+     * @param soapVersion   the SOAP version that defines the envelope/body QNames
+     * @return the Body {@link XmlObject}
+     * @throws XmlException if the envelope or body element is missing or invalid
+     */
     public static XmlObject getBodyElement(XmlObject messageObject, SoapVersion soapVersion) throws XmlException {
         XmlObject[] envelope = messageObject.selectChildren(soapVersion.getEnvelopeQName());
         if (envelope.length != 1) {
@@ -117,6 +150,16 @@ public class SoapUtils {
         return body[0];
     }
 
+    /**
+     * Extracts the SOAP Header element from the given message object.
+     * Optionally creates the header element if it does not exist.
+     *
+     * @param messageObject the parsed SOAP message XML object
+     * @param soapVersion   the SOAP version that defines the header QName
+     * @param create        if {@code true} and no header exists, one will be created
+     * @return the Header {@link XmlObject}, or {@code null} if not present and not created
+     * @throws XmlException if the envelope element is missing or invalid
+     */
     public static XmlObject getHeaderElement(XmlObject messageObject, SoapVersion soapVersion, boolean create)
             throws XmlException {
         XmlObject[] envelope = messageObject.selectChildren(soapVersion.getEnvelopeQName());
@@ -139,6 +182,15 @@ public class SoapUtils {
         return header.length == 0 ? null : header[0];
     }
 
+    /**
+     * Extracts the first child container element inside the SOAP Body,
+     * typically the method-response element.
+     *
+     * @param messageObject the parsed SOAP message XML object (may be {@code null})
+     * @param soapVersion   the SOAP version for body extraction
+     * @return the content {@link XmlObject}, or {@code null} if not found
+     * @throws XmlException if the body cannot be extracted
+     */
     public static XmlObject getContentElement(XmlObject messageObject, SoapVersion soapVersion) throws XmlException {
         if (messageObject == null) {
             return null;
@@ -168,6 +220,16 @@ public class SoapUtils {
         return null;
     }
 
+    /**
+     * Removes the SOAP Header element from the given XML content if it
+     * is empty (has no child nodes and no attributes).
+     *
+     * @param content     the XML string of the SOAP message
+     * @param soapVersion the SOAP version to determine the header namespace
+     * @return the XML content with the empty header removed, or the
+     *         original content if the header is not empty
+     * @throws XmlException if the content cannot be parsed as XML
+     */
     @SuppressWarnings("unchecked")
     public static String removeEmptySoapHeaders(String content, SoapVersion soapVersion) throws XmlException {
         // XmlObject xmlObject = XmlObject.Factory.parse( content );
@@ -185,6 +247,14 @@ public class SoapUtils {
         return content;
     }
 
+    /**
+     * Deduces the SOAP version from the content-type header and request
+     * XML content string. Falls back to content-type only if parsing fails.
+     *
+     * @param requestContentType the HTTP Content-Type header value
+     * @param requestContent     the XML string of the SOAP request
+     * @return the deduced {@link SoapVersion}, or {@code null} if it cannot be determined
+     */
     public static SoapVersion deduceSoapVersion(String requestContentType, String requestContent) {
         try {
             // return deduceSoapVersion( requestContentType,
@@ -195,6 +265,17 @@ public class SoapUtils {
         }
     }
 
+    /**
+     * Transfers SOAP header elements from one request content into another.
+     * Header elements present in {@code requestContent} but absent in
+     * {@code newRequest} are copied over.
+     *
+     * @param requestContent the source XML string containing headers to transfer
+     * @param newRequest     the target XML string to receive the headers
+     * @param soapVersion    the SOAP version for namespace resolution
+     * @return the updated {@code newRequest} XML with transferred headers,
+     *         or the original {@code newRequest} if transfer is not possible
+     */
     public static String transferSoapHeaders(String requestContent, String newRequest, SoapVersion soapVersion) {
         try {
             // XmlObject source = XmlObject.Factory.parse( requestContent );
