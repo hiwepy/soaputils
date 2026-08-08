@@ -9,8 +9,13 @@ import io.github.easy4j.soap.SoapFaultUtils;
 
 
 /**
- * Soap请求响应处理：返回 javax.xml.soap.SOAPMessage 对象
+ * Default {@link SoapResponseHandler} implementation that returns the raw
+ * {@link SOAPMessage} after checking for SOAP faults. If a fault is
+ * detected, an {@link InvokeException} is thrown.
+ *
  * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see io.github.easy4j.soap.SoapFaultUtils
  */
 public class DefaultResponseHandler implements SoapResponseHandler<SOAPMessage> {
 

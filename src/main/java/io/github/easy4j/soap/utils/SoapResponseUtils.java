@@ -28,8 +28,28 @@ import io.github.easy4j.soap.SoapUtils;
 import io.github.easy4j.soap.SoapVersion;
 import com.eviware.soapui.support.SoapUIException;
 
+/**
+ * Utility class for parsing SOAP response XML into structured data.
+ * Provides methods to extract result values from a SOAP response body
+ * as a string array and to retrieve fault codes from fault responses.
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see io.github.easy4j.soap.SoapUtils
+ * @see XmlUtils
+ */
 public class SoapResponseUtils {
 	
+	/**
+	 * Parses a SOAP response XML body and extracts all leaf-element text
+	 * values into a string array. Supports both flat result elements and
+	 * nested "array of results" structures.
+	 *
+	 * @param soapResponseBody the XML string of the SOAP response body
+	 * @param soapVersion      the SOAP version used for namespace resolution
+	 * @return an array of extracted text values
+	 * @throws SoapUIException if parsing fails
+	 */
 	public static String[] parseResponseToArray(String soapResponseBody, SoapVersion soapVersion) throws SoapUIException {
 		
 		try {
@@ -110,6 +130,13 @@ public class SoapResponseUtils {
 		
 	}
 
+	/**
+	 * Extracts the fault code string from a SOAP fault response.
+	 *
+	 * @param soapVersion     the SOAP version used for namespace resolution
+	 * @param responseContent the XML string of the SOAP response
+	 * @return the fault code string, or {@code null} if not found or not a fault
+	 */
 	public static String getFaultCode(SoapVersion soapVersion, String responseContent) {
 		try {
 			XmlObject xmlObject = XmlUtils.createXmlObject(responseContent);

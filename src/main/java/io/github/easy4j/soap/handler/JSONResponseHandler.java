@@ -8,8 +8,13 @@ import javax.xml.soap.SOAPMessage;
 import com.alibaba.fastjson.JSONObject;
 
 /**
- * Soap请求响应处理：返回JSONObject对象
+ * {@link SoapResponseHandler} implementation that converts a SOAP response
+ * into a {@link JSONObject}. This is a stub implementation that currently
+ * returns {@code null} pending full JSON conversion support.
+ *
  * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see SoapResponseHandler
  */
 public class JSONResponseHandler implements SoapResponseHandler<JSONObject> {
 
