@@ -31,14 +31,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Common behaviour for all SOAP Versions
+ * Abstract base implementation of {@link SoapVersion} that provides
+ * common envelope validation logic shared by all SOAP version
+ * implementations. Subclasses supply the concrete schema loader,
+ * envelope type and fault type for their specific SOAP version.
  *
- * @author ole.matzura
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see SoapVersion
+ * @see SoapVersion11
+ * @see SoapVersion12
  */
 
 public abstract class AbstractSoapVersion implements SoapVersion {
     private final static Logger log = LoggerFactory.getLogger(AbstractSoapVersion.class);
 
+    /**
+     * Validates the given SOAP message string against the envelope schema
+     * of this SOAP version. Any validation errors found are appended to
+     * the supplied error list.
+     *
+     * @param soapMessage the XML string of the SOAP envelope to validate
+     * @param errors      mutable list to which validation errors are appended
+     */
     @SuppressWarnings("unchecked")
     public void validateSoapEnvelope(String soapMessage, List<XmlError> errors) {
         List<XmlError> errorList = new ArrayList<XmlError>();
@@ -71,8 +86,24 @@ public abstract class AbstractSoapVersion implements SoapVersion {
         }
     }
 
+    /**
+     * Returns the {@link SchemaTypeLoader} that contains the SOAP envelope
+     * schema for this version.
+     *
+     * @return the schema type loader for envelope validation
+     */
     protected abstract SchemaTypeLoader getSoapEnvelopeSchemaLoader();
 
+    /**
+     * Determines whether the given XML validation error can be safely
+     * ignored for this SOAP version. Errors related to
+     * {@code encodingStyle} and {@code mustUnderstand} attributes are
+     * ignored because the SOAP specification allows constructions that
+     * the XML Schema may not permit.
+     *
+     * @param error the validation error to evaluate
+     * @return {@code true} if the error should be ignored, {@code false} otherwise
+     */
     public boolean shouldIgnore(XmlValidationError error) {
         QName offendingQName = error.getOffendingQName();
         if (offendingQName != null) {
@@ -86,7 +117,19 @@ public abstract class AbstractSoapVersion implements SoapVersion {
         return false;
     }
 
+    /**
+     * Returns the {@link SchemaType} representing the SOAP Fault element
+     * for this version.
+     *
+     * @return the fault schema type
+     */
     public abstract SchemaType getFaultType();
 
+    /**
+     * Returns the {@link SchemaType} representing the SOAP Envelope element
+     * for this version.
+     *
+     * @return the envelope schema type
+     */
     public abstract SchemaType getEnvelopeType();
 }

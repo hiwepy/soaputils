@@ -3,6 +3,15 @@ package io.github.easy4j.soap.type;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Registry of all built-in {@link SoapType} converters. Each enum constant
+ * pairs a descriptive name with its {@link SoapType} implementation. Provides
+ * lookup methods to resolve the correct converter by Java class or SOAP type name.
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see SoapType
+ */
 public enum SoapTypes {
 	string("字符串(string,java.lang.String)", new StringSoapType()),
 
@@ -22,10 +31,18 @@ public enum SoapTypes {
 		this.soapType = soapType;
 	}
 
+	/**
+	 * Returns the {@link SoapType} converter for this enum constant.
+	 * @return the associated soap type converter
+	 */
 	public SoapType getSoapType() {
 		return this.soapType;
 	}
 
+	/**
+	 * Returns the human-readable description of this type constant.
+	 * @return the descriptive name
+	 */
 	public String getName() {
 		return this.name;
 	}
@@ -34,6 +51,13 @@ public enum SoapTypes {
 		return name();
 	}
 
+	/**
+	 * Finds the {@link SoapType} converter that handles the given Java class.
+	 * Returns the {@link #bean} converter as a fallback.
+	 *
+	 * @param klass the Java class to look up (may be {@code null})
+	 * @return the matching {@link SoapType}, never {@code null}
+	 */
 	public static SoapType getTypeByBean(Class<?> klass) {
 		if (klass == null) {
 			return bean.getSoapType();
@@ -48,6 +72,13 @@ public enum SoapTypes {
 		return bean.getSoapType();
 	}
 
+	/**
+	 * Finds the {@link SoapType} converter that handles the given SOAP type
+	 * name string. Returns the {@link #bean} converter as a fallback.
+	 *
+	 * @param type the SOAP type name (e.g. {@code "string"}, {@code "int"}), may be {@code null}
+	 * @return the matching {@link SoapType}, never {@code null}
+	 */
 	public static SoapType getTypeBySoap(String type) {
 		if (type == null) {
 			return bean.getSoapType();

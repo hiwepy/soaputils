@@ -6,8 +6,13 @@ import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 
 /**
- * Soap请求响应处理：返回java.lang.String对象
+ * {@link SoapResponseHandler} implementation that converts a SOAP response
+ * into a plain-text {@link String}. This is a stub implementation that
+ * currently returns {@code null} pending full text extraction support.
+ *
  * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see SoapResponseHandler
  */
 public class PlainTextResponseHandler implements SoapResponseHandler<String> {
 

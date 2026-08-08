@@ -50,11 +50,35 @@ import io.github.easy4j.soap.signature.SoapSignature;
 import io.github.easy4j.soap.type.SoapType;
 import io.github.easy4j.soap.type.SoapTypes;
 
+/**
+ * Utility class for building SOAP 1.1 request messages. Provides methods to
+ * construct a complete {@link SOAPMessage} from a namespace, method name,
+ * and parameter map, optionally delegating to a {@link SoapSignature} for
+ * header/body signing.
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see io.github.easy4j.soap.signature.SoapSignature
+ * @see io.github.easy4j.soap.type.SoapType
+ */
 public class SoapRequestUtils {
 
 	private static Logger logger = LoggerFactory.getLogger(SoapRequestUtils.class);
 	
 	
+	/**
+	 * Builds a SOAP 1.1 request message from the given parameters.
+	 *
+	 * @param namespace the target namespace for the SOAP body element
+	 * @param wsdlUrl   the WSDL endpoint URL (currently unused in body construction)
+	 * @param method    the SOAP operation method name
+	 * @param protocol  the SOAP protocol version (e.g. {@code SOAPConstants.SOAP_1_2_PROTOCOL}),
+	 *                  may be {@code null} for the default protocol
+	 * @param params    a map of parameter names to values to populate in the SOAP body
+	 * @param signature a {@link SoapSignature} used to sign the header and body
+	 * @return the constructed {@link SOAPMessage}
+	 * @throws SOAPException if the message cannot be created
+	 */
 	public static SOAPMessage buildRequest(String namespace, String wsdlUrl, String method, String protocol,
 			Map<String, Object> params, SoapSignature signature) throws SOAPException {
 		return buildRequest(createRequest(null, null, namespace, method, params),

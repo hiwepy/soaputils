@@ -20,6 +20,15 @@ import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPHeader;
 
+/**
+ * Default {@link SoapSignature} implementation that adds a static
+ * "username" header element as a simple authentication token. The body
+ * is left unsigned.
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see SoapSignature
+ */
 public class DefaultSoapSignature implements SoapSignature {
 
 	@Override
