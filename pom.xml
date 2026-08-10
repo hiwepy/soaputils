@@ -351,7 +351,7 @@
             </activation>
             <properties>
 		<xercesImpl.version>2.12.2</xercesImpl.version>
-                <central-maven-publishing-plugin.version>0.11.0</central-maven-publishing-plugin.version>
+                <maven-central-publishing-plugin.version>0.11.0</maven-central-publishing-plugin.version>
                 <lombok.version>1.18.46</lombok.version>
                 <additionalparam>-Xdoclint:none</additionalparam>
                 <maven-jacoco-plugin.version>0.8.15</maven-jacoco-plugin.version>
@@ -360,7 +360,6 @@
 		<soapui.version>5.4.0</soapui.version>
 		<saxon.version>9.9.1-8</saxon.version>
 		<javax-xml-soap-api.version>1.4.0</javax-xml-soap-api.version>
-        <maven-central-publishing-plugin.version>0.11.0</maven-central-publishing-plugin.version>
 		<n52-xml-soap.version>2.7.0</n52-xml-soap.version></properties>
         </profile>
         <!-- 发布到 Maven Central Portal：mvn -Prelease deploy（GPG 签名 + 源码 + Javadoc + Central 发布插件） -->
@@ -484,7 +483,7 @@
                         <!-- 发布插件：将制品发布到 Maven Central Portal -->
                         <groupId>org.sonatype.central</groupId>
                         <artifactId>central-publishing-maven-plugin</artifactId>
-                        <version>${central-maven-publishing-plugin.version}</version>
+                        <version>${maven-central-publishing-plugin.version}</version>
                         <extensions>true</extensions>
                         <configuration>
                             <publishingServerId>central</publishingServerId>
@@ -529,7 +528,6 @@
         <commons-beanutils.version>1.11.0</commons-beanutils.version>
         <commons-text.version>1.15.0</commons-text.version>
         <wsdl4j.version>1.6.3</wsdl4j.version>
-        <maven-central-publishing-plugin.version>0.11.0</maven-central-publishing-plugin.version>
     </properties>
 
     <!-- 依赖版本统一管理（dependencyManagement） -->
