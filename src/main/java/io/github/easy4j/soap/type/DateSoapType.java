@@ -11,7 +11,7 @@ import org.apache.xmlbeans.impl.values.XmlDateTimeImpl;
  * including {@link Date} and {@link Calendar}. Uses XmlBeans
  * {@link XmlDateTime} for ISO-8601 serialization.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see BaseSoapType
  * @see SoapTypes#date

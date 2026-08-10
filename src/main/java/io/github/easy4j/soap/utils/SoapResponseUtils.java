@@ -33,7 +33,7 @@ import com.eviware.soapui.support.SoapUIException;
  * Provides methods to extract result values from a SOAP response body
  * as a string array and to retrieve fault codes from fault responses.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see io.github.easy4j.soap.SoapUtils
  * @see XmlUtils

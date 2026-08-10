@@ -10,7 +10,7 @@ import javax.xml.soap.SOAPMessage;
  * into a plain-text {@link String}. This is a stub implementation that
  * currently returns {@code null} pending full text extraction support.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see SoapResponseHandler
  */

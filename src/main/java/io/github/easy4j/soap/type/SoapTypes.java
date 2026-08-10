@@ -8,7 +8,7 @@ import java.util.List;
  * pairs a descriptive name with its {@link SoapType} implementation. Provides
  * lookup methods to resolve the correct converter by Java class or SOAP type name.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see SoapType
  */

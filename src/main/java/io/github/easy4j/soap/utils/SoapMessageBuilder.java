@@ -42,7 +42,7 @@ import io.github.easy4j.soap.type.SoapTypes;
  * and writes them into a variables map according to the binding definitions
  * in a {@link JSONArray}.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see io.github.easy4j.soap.SoapFaultUtils
  * @see io.github.easy4j.soap.type.SoapTypes

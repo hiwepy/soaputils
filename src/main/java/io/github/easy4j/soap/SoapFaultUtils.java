@@ -28,7 +28,7 @@ import io.github.easy4j.soap.exception.InvokeException;
  * When a SOAP fault is present in the response body, an {@link InvokeException}
  * is thrown containing the fault code and fault string from the response.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see io.github.easy4j.soap.exception.InvokeException
  * @see javax.xml.soap.SOAPFault

@@ -24,7 +24,7 @@ import javax.xml.soap.SOAPHeader;
  * SOAP request messages. Implementations can sign the SOAP header,
  * body, or both before the message is sent.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see DefaultSoapSignature
  * @see io.github.easy4j.soap.SoapRequestUtils

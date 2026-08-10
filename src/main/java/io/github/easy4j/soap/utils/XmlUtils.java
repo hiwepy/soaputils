@@ -76,7 +76,7 @@ import org.apache.xerces.util.SecurityManager;
  * Wraps Apache XmlBeans and standard DOM operations with convenience
  * methods used throughout the SOAP utility framework.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see org.w3c.dom.Document
  * @see org.apache.xmlbeans.XmlObject

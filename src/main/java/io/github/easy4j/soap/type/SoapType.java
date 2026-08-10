@@ -8,7 +8,7 @@ import javax.xml.soap.SOAPException;
  * SOAP element content. Each implementation handles a specific category
  * of types (string, number, date, bean, list, etc.).
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see SoapTypes
  * @see BaseSoapType

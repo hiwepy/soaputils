@@ -25,7 +25,7 @@ import org.w3c.dom.NodeList;
  * Provides helpers for element naming, sibling counting, child element
  * filtering by type, and collection detection via comment markers.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see XmlUtils
  */

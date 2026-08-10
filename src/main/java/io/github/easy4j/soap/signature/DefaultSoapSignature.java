@@ -25,7 +25,7 @@ import javax.xml.soap.SOAPHeader;
  * "username" header element as a simple authentication token. The body
  * is left unsigned.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see SoapSignature
  */

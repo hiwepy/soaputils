@@ -8,7 +8,7 @@ import javax.xml.soap.SOAPElement;
  * {@link Integer}, {@link Long}, {@link Short}, {@link Double},
  * {@link Float} and {@link BigDecimal}.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see BaseSoapType
  * @see SoapTypes#number

@@ -26,7 +26,7 @@ import javax.xml.soap.SOAPMessage;
  * and may perform pre-processing on the underlying HTTP connection.
  *
  * @param <T> the response type produced by this handler
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see io.github.easy4j.soap.SoapUtils2
  */

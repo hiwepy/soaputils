@@ -13,7 +13,7 @@ import javax.xml.soap.SOAPException;
  * {@link #setCurrentValue(SOAPElement, Object, Class)} for their
  * specific type handling logic.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see SoapType
  * @see SoapTypes

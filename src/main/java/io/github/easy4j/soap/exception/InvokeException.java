@@ -22,7 +22,7 @@ import javax.xml.soap.SOAPException;
  * Extends {@link javax.xml.soap.SOAPException} with a fault {@code code}
  * and {@code msg} extracted from the SOAP Fault element.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see io.github.easy4j.soap.SoapFaultUtils
  */

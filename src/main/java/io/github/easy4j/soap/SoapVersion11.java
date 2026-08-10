@@ -37,7 +37,7 @@ import java.io.IOException;
  * Uses the {@code text/xml} content type and SOAP 1.1 encoding namespace.
  * Schema resources are loaded from SoapUI's bundled XSD files at class-load time.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see SoapVersion12
  * @see Constants#SOAP11_ENVELOPE_NS

@@ -16,7 +16,7 @@ import org.w3c.dom.NodeList;
  * objects via reflection. Each field of the bean is mapped to a child
  * element of the SOAP element with a matching tag name.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see BaseSoapType
  * @see SoapTypes#bean

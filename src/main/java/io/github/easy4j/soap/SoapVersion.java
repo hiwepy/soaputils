@@ -18,7 +18,7 @@ import java.util.List;
  * fault QNames, content type, encoding namespace, schema access,
  * validation logic and related metadata.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see SoapVersion11
  * @see SoapVersion12
@@ -141,7 +141,7 @@ public interface SoapVersion {
     /**
      * Utility methods for {@link SoapVersion} resolution.
      *
-     * @author [@Loong Wan](https://github.com/loong10k)
+     * @author <a href="https://github.com/loong10k">Loong Wan</a>
      * @since 3.0.0
      */
 

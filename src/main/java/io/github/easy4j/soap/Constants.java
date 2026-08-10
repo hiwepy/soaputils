@@ -21,7 +21,7 @@ package io.github.easy4j.soap;
  * Contains XML Schema, WSDL, SOAP 1.1/1.2 envelope, encoding,
  * and binding namespace URIs as well as related XSI and WADL constants.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see io.github.easy4j.soap.SoapVersion
  * @see io.github.easy4j.soap.SoapVersion11

@@ -12,7 +12,7 @@ import com.alibaba.fastjson.JSONObject;
  * into a {@link JSONObject}. This is a stub implementation that currently
  * returns {@code null} pending full JSON conversion support.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see SoapResponseHandler
  */

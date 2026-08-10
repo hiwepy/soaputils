@@ -27,7 +27,7 @@ import io.github.easy4j.soap.signature.SoapSignature;
  * strategies. Also provides connection timeout configuration and
  * a simple {@code notNull} assertion helper.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see SoapRequestUtils
  * @see io.github.easy4j.soap.handler.SoapResponseHandler
