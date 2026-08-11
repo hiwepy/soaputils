@@ -532,6 +532,14 @@
         <maven-resources-plugin.version>3.5.0</maven-resources-plugin.version>
         <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
         <maven-surefire-plugin.version>2.21.0</maven-surefire-plugin.version>
+        <groovy.version>3.0.21</groovy.version>
+        <javax-xml-soap-api.version>1.4.0</javax-xml-soap-api.version>
+        <lombok.version>1.18.46</lombok.version>
+        <maven-jacoco-plugin.version>0.8.15</maven-jacoco-plugin.version>
+        <n52-xml-soap.version>2.7.0</n52-xml-soap.version>
+        <saxon.version>9.9.1-8</saxon.version>
+        <soapui.version>5.4.0</soapui.version>
+        <xercesImpl.version>2.12.2</xercesImpl.version>
     </properties>
 
     <!-- 依赖版本统一管理（dependencyManagement） -->
