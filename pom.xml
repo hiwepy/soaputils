@@ -50,7 +50,8 @@
                 <saxon.version>9.9.1-8</saxon.version>
                 <soapui.version>5.4.0</soapui.version>
                 <xercesImpl.version>2.12.2</xercesImpl.version>
-            </properties>
+            
+    </properties>
         </profile>
         <profile>
             <id>release</id>
@@ -102,6 +103,7 @@
         <saxon.version>9.9.1-8</saxon.version>
         <soapui.version>5.4.0</soapui.version>
         <xercesImpl.version>2.12.2</xercesImpl.version>
+    
     </properties>
     <dependencyManagement>
         <dependencies>
