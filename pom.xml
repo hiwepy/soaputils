@@ -50,8 +50,7 @@
                 <saxon.version>9.9.1-8</saxon.version>
                 <soapui.version>5.4.0</soapui.version>
                 <xercesImpl.version>2.12.2</xercesImpl.version>
-            
-    </properties>
+            </properties>
         </profile>
         <profile>
             <id>release</id>
@@ -103,7 +102,6 @@
         <saxon.version>9.9.1-8</saxon.version>
         <soapui.version>5.4.0</soapui.version>
         <xercesImpl.version>2.12.2</xercesImpl.version>
-    
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -329,8 +327,8 @@
                                     </requireMavenVersion>
                                     <requireJavaVersion>
                                         <message>
-                                                                                        You are running an older version of Java. This application requires at least JDK ${java.version}.
-                                                                                </message>
+                                                                                                                                                                                You are running an older version of Java. This application requires at least JDK ${java.version}.
+                                                                                                                                                                </message>
                                         <version>[${java.version}.0,)</version>
                                     </requireJavaVersion>
                                 </rules>
