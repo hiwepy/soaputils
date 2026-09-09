@@ -44,7 +44,6 @@
             </activation>
             <properties>
                 <!-- Dependency versions -->
-                <additionalparam>-Xdoclint:none</additionalparam>
                 <groovy.version>3.0.21</groovy.version>
                 <javax-xml-soap-api.version>1.4.0</javax-xml-soap-api.version>
                 <lombok.version>1.18.46</lombok.version>
