@@ -49,7 +49,7 @@
                 <lombok.version>1.18.46</lombok.version>
                 <n52-xml-soap.version>2.7.0</n52-xml-soap.version>
                 <saxon.version>9.9.1-8</saxon.version>
-                <soapui.version>5.4.0</soapui.version>
+                <soapui.version>5.4.0-easy4j</soapui.version>
                 <xercesImpl.version>2.12.2</xercesImpl.version>
             </properties>
         </profile>
@@ -101,7 +101,7 @@
         <lombok.version>1.18.46</lombok.version>
         <n52-xml-soap.version>2.7.0</n52-xml-soap.version>
         <saxon.version>9.9.1-8</saxon.version>
-        <soapui.version>5.4.0</soapui.version>
+        <soapui.version>5.4.0-easy4j</soapui.version>
         <xercesImpl.version>2.12.2</xercesImpl.version>
     </properties>
     <dependencyManagement>
@@ -291,6 +291,19 @@
         </snapshotRepository>
     </distributionManagement>
     <!-- 构建配置（Build） -->
+    <repositories>
+        <repository>
+            <id>2624322-release-6F6h6R</id>
+            <url>https://packages.aliyun.com/6927b116e6c3e0425dbdf60d/maven/2624322-release-6f6h6r</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
     <build>
         <pluginManagement>
             <plugins>
@@ -462,6 +475,27 @@
             </plugins>
         </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>install-vendored-soapui</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.basedir}/libs/soapui-5.4.0.jar</file>
+                            <groupId>com.eviware</groupId>
+                            <artifactId>soapui</artifactId>
+                            <version>${soapui.version}</version>
+                            <packaging>jar</packaging>
+                            <generatePom>true</generatePom>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
